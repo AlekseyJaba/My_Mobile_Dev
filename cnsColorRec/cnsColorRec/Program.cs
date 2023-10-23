@@ -1,4 +1,8 @@
-﻿void MyCreateRectangle(int width, int height, int color, char symbol)
+﻿using System.ComponentModel.Design;
+using System.Drawing;
+using System.Net.Mail;
+
+void MyCreateRectangle(int width, int height, int color, char symbol)
 {
     color--;
     List<ConsoleColor> colors = new() {
@@ -98,111 +102,308 @@
 
 void DrawSnake(int width, int height, bool clock)
 {
-    //char symbol = '█';
-    char symbol = '*';
-
-
+    char symbol = '█';
     Console.ForegroundColor = ConsoleColor.Green;
-
-    int sdvig = 1;
-    int x_start = 0;
-    int x_end = width;
-    int max_count_line = height / 2 + height % 2;
+    int sred_height = height / 2 + height % 2;
     int sred_width = width / 2 + width % 2;
-    if (clock)
+    char[,] mass = new char[height, width];
+    int min_ = width <= height ? sred_width : sred_height;
+    int now_width = width;
+    int now_height = height;
+    int count = 0;
+    while (count <= min_)
     {
-        for (int i = 0; i < max_count_line; i++)
+        if (count % 2 == 0)
         {
-            x_end = x_end > width / 2 + width % 2 - 1 ? --x_end : x_end;
-            x_start = i > 2 && x_start <= x_end ? x_start++ : x_start;
-            Console.WriteLine(x_start + " "+ x_end);
-            for (int j = 0; j <width; j++)
+            for (int y = count; y < now_height; y++)
             {
-                if (i % 2 == 0)
+                for (int x = count; x < now_width; x++)
                 {
-                    if (j < x_start)
-                    {
-                        if (j % 2 == 0)
-                        {
-                            Console.Write(symbol);
-                        }
-                        else
-                        {
-                            Console.Write(' ');
-                        }
-                    }
-                    if (j >= x_start &&  j <= x_end)
-                    {
-                        Console.Write(symbol);
-                    }
+                    if (y == count || y == now_height - 1)
+                        mass[y, x] = symbol;
                     else
                     {
-                        if (x_end % 2 == 1)
+                        mass[y, count] = symbol;
+                        mass[y, now_width - 1] = symbol;
+                    }
+                }
+                if (clock)
+                    mass[count + 1, count] = ' ';
+                else
+                    mass[count + 1, now_width - 1] = ' ';
+            }
+        }
+        else
+        {
+            for (int y = count; y < now_height; y++)
+            {
+                for (int x = count; x < now_width; x++)
+                {
+                    if (y == count || y == now_height - 1)
+                        mass[y, x] = ' ';
+                    else
+                    {
+                        mass[y, count] = ' ';
+                        mass[y, now_width - 1] = ' ';
+                    }
+                }
+                if (clock)
+                    mass[count + 1, count] = symbol;
+                else
+                    mass[count + 1, now_width - 1] = symbol;
+            }
+        }
+        now_width--;
+        now_height--;
+        count++;
+    }
+    for (int y = 0; y < height; y++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            Console.Write(mass[y, j]);
+        }
+        Console.WriteLine();
+    }
+    Console.ForegroundColor = ConsoleColor.White;
+}
+
+void CreateMap(int width, int height, int count_mine)
+{
+    Random rnd = new Random();
+    int[,] map = new int[height, width];
+    List<ConsoleColor> colors = new() {
+        ConsoleColor.DarkGray, ConsoleColor.Blue,
+        ConsoleColor.Green, ConsoleColor.Magenta,
+        ConsoleColor.Yellow, ConsoleColor.Cyan,
+        ConsoleColor.DarkGreen, ConsoleColor.DarkMagenta,
+        ConsoleColor.DarkYellow, ConsoleColor.DarkRed
+    };
+    List<char> symbol = new()
+    {
+        ' ', '1','2','3','4','5','6','7', '8', '*'
+    };
+    int around_mine;
+    while (count_mine > 0)
+    {
+        (int x, int y) mine;
+        mine.x = rnd.Next(0, width);
+        mine.y = rnd.Next(0, height);
+        while (map[mine.y, mine.x] == -1)
+        {
+            mine.x = rnd.Next(0, width);
+            mine.y = rnd.Next(0, height);
+        }
+        map[mine.y, mine.x] = -1;
+        if (mine.y + 1 < height && mine.y - 1 >=0 && mine.x + 1 < width && mine.x - 1 >=0) // не крайние 
+        {
+            for (int i = mine.y - 1; i <= mine.y + 1; i++)
+            {
+                for (int j = mine.x - 1; j <= mine.x + 1; j++)
+                {
+                    if (map[i, j] != -1)
+                    {
+                        map[i, j] += 1;
+                    }
+                }
+            }
+        }
+        else // края 
+        {
+            if (mine.y == 0) // первая строка
+            {
+                if (mine.x != 0 &&  mine.x != width - 1) // не крайние
+                {
+                    for (int y = mine.y; y <= mine.y + 1; y++)
+                    {
+                        for (int x = mine.x - 1; x <= mine.x + 1; x++)
                         {
-                            if (j % 2 == 0)
-
-                                Console.Write(' ');
-
-                            else
-                                Console.Write(symbol);
-                        }
-                        else
-                        {
-                            if (j % 2 == 0)
-
-                                Console.Write(symbol);
-
-                            else
-                                Console.Write(' ');
+                            if (map[y, x] != -1)
+                            {
+                                map[y, x] += 1;
+                            }
                         }
                     }
                 }
-                else
+                else // крайние в первой строке
                 {
-                    if (j < x_start)
+                    if (mine.x == 0) // левый верхний угол
                     {
-                        if (j % 2 == 0)
+                        for (int y = mine.y; y <= mine.y + 1; y++)
                         {
-                            Console.Write(symbol);
-                        }
-                        else
-                        {
-                            Console.Write(' ');
+                            for (int x = mine.x; x <= mine.x + 1; x++)
+                            {
+                                if (map[y, x] != -1)
+                                {
+                                    map[y, x] += 1;
+                                }
+                            }
                         }
                     }
-                    if (j >= x_start &&  j <= x_end)
+                    else //Верхний правый угол
                     {
-                        Console.Write(' ');
-                    }
-                    else
-                    {
-                        if (x_end % 2 == 0)
+                        for (int y = mine.y; y <= mine.y + 1; y++)
                         {
-                            if (j % 2 == 1)
-
-                                Console.Write(symbol);
-
-                            else
-                                Console.Write(' ');
-                        }
-                        else
-                        {
-                            if (j % 2 == 1)
-
-                                Console.Write(' ');
-
-                            else
-                                Console.Write(symbol);
+                            for (int x = mine.x - 1; x <= mine.x; x++)
+                            {
+                                if (map[y, x] != -1)
+                                {
+                                    map[y, x] += 1;
+                                }
+                            }
                         }
                     }
                 }
             }
-            Console.WriteLine();
+            if (mine.y == height - 1) // нижняя строка
+            {
+                if (mine.x != 0 &&  mine.x != width - 1) // не крайние
+                {
+                    for (int y = mine.y - 1; y <= mine.y; y++)
+                    {
+                        for (int x = mine.x - 1; x <= mine.x + 1; x++)
+                        {
+                            if (map[y, x] != -1)
+                            {
+                                map[y, x] += 1;
+                            }
+                        }
+                    }
+                }
+                else // крайние в последней строке
+                {
+                    if (mine.x == 0) // левый нижний угол
+                    {
+                        for (int y = mine.y - 1; y <= mine.y; y++)
+                        {
+                            for (int x = mine.x; x <= mine.x + 1; x++)
+                            {
+                                if (map[y, x] != -1)
+                                {
+                                    map[y, x] += 1;
+                                }
+                            }
+                        }
+                    }
+                    else //Нижний правый угол
+                    {
+                        for (int y = mine.y - 1; y <= mine.y; y++)
+                        {
+                            for (int x = mine.x - 1; x <= mine.x; x++)
+                            {
+                                if (map[y, x] != -1)
+                                {
+                                    map[y, x] += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (mine.y !=0 && mine.y != height-1) //левая и правая стена не включая углы
+            {
+                if (mine.x == 0) // левая
+                {
+                    for (int y = mine.y - 1; y <= mine.y+1; y++)
+                    {
+                        for (int x = mine.x; x <= mine.x + 1; x++)
+                        {
+                            if (map[y, x] != -1)
+                            {
+                                map[y, x] += 1;
+                            }
+                        }
+                    }
+                }
+                else//правая
+                {
+                    for (int y = mine.y - 1; y <= mine.y+1; y++)
+                    {
+                        for (int x = mine.x - 1; x <= mine.x; x++)
+                        {
+                            if (map[y, x] != -1)
+                            {
+                                map[y, x] += 1;
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        count_mine--;
+    }
+    for (int i = 0; i<height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            switch (map[i, j])
+            {
+                case 0:
+                    Console.BackgroundColor = colors[0];
+                    Console.Write(symbol[0]);
+                    Console.ResetColor();
+                    break;
+                case 1:
+                    Console.ForegroundColor = colors[1];
+                    Console.Write(symbol[1]);
+                    Console.ResetColor();
+                    break;
+                case 2:
+                    Console.ForegroundColor = colors[2];
+                    Console.Write(symbol[2]);
+                    Console.ResetColor();
+                    break;
+                case 3:
+                    Console.ForegroundColor = colors[3];
+                    Console.Write(symbol[3]);
+                    Console.ResetColor();
+                    break;
+                case 4:
+                    Console.ForegroundColor = colors[4];
+                    Console.Write(symbol[4]);
+                    Console.ResetColor();
+                    break;
+                case 5:
+                    Console.ForegroundColor = colors[5];
+                    Console.Write(symbol[5]);
+                    Console.ResetColor();
+                    Console.Beep();
+                    break;
+                case 6:
+                    Console.ForegroundColor = colors[6];
+                    Console.Write(symbol[6]);
+                    Console.ResetColor();
+                    Console.Beep();
+                    break;
+                case 7:
+                    Console.ForegroundColor = colors[7];
+                    Console.Write(symbol[7]);
+                    Console.ResetColor();
+                    Console.Beep();
+                    break;
+                case 8:
+                    Console.ForegroundColor = colors[8];
+                    Console.Write(symbol[8]);
+                    Console.ResetColor();
+                    Console.Beep();
+                    break;
+                default:
+                    Console.BackgroundColor = colors[9];
+                    Console.Write(symbol[9]);
+                    Console.ResetColor();
+                    break;
+
+            }
+        }
+        Console.ResetColor();
+        Console.WriteLine();
     }
 }
 
-Console.WriteLine("Что вы хотите нарисовать? 1 - прямоугольник; 2 - змейка");
+
+
+Console.WriteLine("Что вы хотите нарисовать? 1 - прямоугольник; 2 - змейка; 5 - сапер");
 int.TryParse(Console.ReadLine(), out int Change_play);
 bool Check = true;
 switch (Change_play)
@@ -245,11 +446,36 @@ switch (Change_play)
             Check = (text.ToUpper() == "YES") ? true : false;
         }
         break;
+    case 5:
+        while (Check)
+        {
+            Console.WriteLine("Ширина Поля?");
+            int.TryParse(Console.ReadLine(), out int width);
+            width = width == 0 || width<0 ? 9 : width;
+            Console.WriteLine("Высота Поля?");
+            int.TryParse(Console.ReadLine(), out int height);
+            height = height == 0 || height<0 ? 9 : height;
+            Console.WriteLine("Введите кол-во мин: ");
+            int.TryParse(Console.ReadLine(), out int count_mine);
+            count_mine = count_mine == 0 ? 10 : count_mine;
+            int str_cifr_nine = width/2 + width%2;
+            int column_cifr_nine = height/2+ height%2;
+            while (count_mine > width * height - str_cifr_nine* column_cifr_nine || count_mine <= 0)
+            {
+                Console.WriteLine("Введите кол-во мин: ");
+                int.TryParse(Console.ReadLine(), out count_mine);
+            }
+
+            CreateMap(width, height, count_mine);
+
+            Console.WriteLine("Хотите ещё порисовать? [Yes/No]");
+            string text = Console.ReadLine();
+            Check = (text.ToUpper() == "YES") ? true : false;
+        }
+        break;
 
     default:
 
         break;
 
 }
-
-

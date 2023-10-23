@@ -1,0 +1,14 @@
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\bin\Debug\net7.0\cnsColorRec.exe
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\bin\Debug\net7.0\cnsColorRec.deps.json
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\bin\Debug\net7.0\cnsColorRec.runtimeconfig.json
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\bin\Debug\net7.0\cnsColorRec.dll
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\bin\Debug\net7.0\cnsColorRec.pdb
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.AssemblyInfoInputs.cache
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.AssemblyInfo.cs
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.csproj.CoreCompileInputs.cache
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.dll
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\refint\cnsColorRec.dll
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.pdb
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\cnsColorRec.genruntimeconfig.cache
+C:\Users\aleks\source\repos\My_Mobile_Dev\cnsColorRec\cnsColorRec\obj\Debug\net7.0\ref\cnsColorRec.dll
