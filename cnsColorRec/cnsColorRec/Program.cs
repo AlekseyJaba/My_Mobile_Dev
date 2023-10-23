@@ -400,7 +400,52 @@ void CreateMap(int width, int height, int count_mine)
         Console.WriteLine();
     }
 }
+void GeneratePassword(int n_pass, int n_symbol, bool cifry, bool small_latter, bool up_latter, bool spec_cymbol, bool special)
+{
+    string validChars = "";
 
+    if (cifry)
+    {
+        validChars = validChars.Insert(validChars.Length, "1234567890");
+    }
+
+    if (small_latter)
+    {
+        validChars = validChars.Insert(validChars.Length, "abcdefghijklmnopqrstuvwxyz");
+    }
+
+    if (up_latter)
+    {
+        validChars = validChars.Insert(validChars.Length, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    }
+
+    if (spec_cymbol)
+    {
+        validChars = validChars.Insert(validChars.Length, "!@#$%^&*()_+-=[]{}|;:,.<>?");
+    }
+
+    if (special)
+    {
+        Console.WriteLine("Введите доп. символы");
+        string symbolDop = Console.ReadLine();
+        validChars = validChars.Insert(validChars.Length, symbolDop);
+    }
+    Console.WriteLine("Сгенерированные пароли: ");
+    for (int i = 0; i < n_pass; i++)
+    {
+
+        char[] password_char = new char[n_symbol];
+        for (int j = 0; j < n_symbol; j++)
+        {
+            Random random = new Random();
+            int index = random.Next(validChars.Length);
+            password_char[j] = validChars[index];
+
+        }
+        string str = string.Join("", password_char);
+        Console.WriteLine(str);
+    }
+}
 
 
 Console.WriteLine("Что вы хотите нарисовать? 1 - прямоугольник; 2 - змейка; 5 - сапер");
@@ -440,6 +485,35 @@ switch (Change_play)
             bool clock = (vector.ToUpper() == "YES") ? true : false;
 
             DrawSnake(width, heigth, clock);
+
+            Console.WriteLine("Хотите ещё порисовать? [Yes/No]");
+            string text = Console.ReadLine();
+            Check = (text.ToUpper() == "YES") ? true : false;
+        }
+        break;
+    case 3:
+        while (Check)
+        {
+            Console.WriteLine("Кол-во паролей?");
+            int.TryParse(Console.ReadLine(), out int n_pass);
+            Console.WriteLine("Кол-во символов?");
+            int.TryParse(Console.ReadLine(), out int n_symbol);
+            Console.WriteLine("Исп. цифры? [Yes/No]");
+            string cifr = Console.ReadLine();
+            bool cifry = (cifr.ToUpper() == "YES") ? true : false;
+            Console.WriteLine("Исп. мал буквы? [Yes/No]");
+            string buk = Console.ReadLine();
+            bool bukvy = (buk.ToUpper() == "YES") ? true : false;
+            Console.WriteLine("Исп. Бол буквы? [Yes/No]");
+            string Buk = Console.ReadLine();
+            bool Bukvy = (Buk.ToUpper() == "YES") ? true : false;
+            Console.WriteLine("Исп. спец символы? [Yes/No]");
+            string spec_sym = Console.ReadLine();
+            bool spec_cymbol = (spec_sym.ToUpper() == "YES") ? true : false;
+            Console.WriteLine("Использовать дополнительные символы? [Yes/No]");
+            bool special = Console.ReadLine().ToUpper() == "Yes";
+
+            GeneratePassword(n_pass, n_symbol, cifry, bukvy, Bukvy, spec_cymbol, special);
 
             Console.WriteLine("Хотите ещё порисовать? [Yes/No]");
             string text = Console.ReadLine();
