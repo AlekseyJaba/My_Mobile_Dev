@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aleks\\source\\repos\\My_Mobile_Dev\\cnsColorRec\\cnsColorRec\\cnsColorRec.csproj",
+      "projectUniqueName": "C:\\Users\\aleks\\source\\repos\\My_mobile_dev2\\cnsColorRec\\cnsColorRec\\cnsColorRec.csproj",
       "projectName": "cnsColorRec",
-      "projectPath": "C:\\Users\\aleks\\source\\repos\\My_Mobile_Dev\\cnsColorRec\\cnsColorRec\\cnsColorRec.csproj",
+      "projectPath": "C:\\Users\\aleks\\source\\repos\\My_mobile_dev2\\cnsColorRec\\cnsColorRec\\cnsColorRec.csproj",
       "packagesPath": "C:\\Users\\aleks\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aleks\\source\\repos\\My_Mobile_Dev\\cnsColorRec\\cnsColorRec\\obj\\",
+      "outputPath": "C:\\Users\\aleks\\source\\repos\\My_mobile_dev2\\cnsColorRec\\cnsColorRec\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
